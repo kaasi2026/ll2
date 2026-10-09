@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { _ } from 'svelte-i18n';
 	import Button from 'components/Button.svelte';
 	import MarkDownPage from 'components/MarkDownPage.svelte';
 
@@ -17,7 +16,7 @@
 	className="intro-page"
 	{readmeHTML}
 	{title}
-	description={$_('about.meta.description')}
+	description="LibreLingo is an open source, community-driven language-learning platform that gives its users and contributors a way to influence its future."
 >
 	<div class="intro-actions">
 		<Button style="primary" size="large" href={homepageLink}>Go back to course</Button>

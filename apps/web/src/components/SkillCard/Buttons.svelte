@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Button from 'components/Button.svelte';
-	import Translate from 'components/Translate.svelte';
 
 	let { practiceHref, completed, started } = $props();
 </script>
@@ -8,15 +7,15 @@
 <div class="container">
 	{#if completed}
 		<Button style="primary" href={practiceHref}>
-			<Translate key="course_page.button_practice">Practice</Translate>
+			Practice
 		</Button>
 	{:else if started}
 		<Button style="primary" href={practiceHref}>
-			<Translate key="course_page.button_continue">Continue learning</Translate>
+			Continue learning
 		</Button>
 	{:else}
 		<Button style="primary" href={practiceHref}>
-			<Translate key="course_page.button_learn">Learn</Translate>
+			Learn
 		</Button>
 	{/if}
 </div>

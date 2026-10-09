@@ -69,8 +69,7 @@ export type CourseDataType = {
 };
 
 const formatCourseData = (rawCourseData, { courseName }) => {
-	const { modules, languageName, repositoryURL, languageCode, specialCharacters, uiLanguage } =
-		rawCourseData;
+	const { modules, languageName, repositoryURL, languageCode, specialCharacters } = rawCourseData;
 
 	return {
 		courseName,
@@ -78,8 +77,7 @@ const formatCourseData = (rawCourseData, { courseName }) => {
 		languageName,
 		repositoryURL,
 		languageCode,
-		specialCharacters,
-		uiLanguage
+		specialCharacters
 	};
 };
 

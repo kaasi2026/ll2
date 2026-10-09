@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../assets/mystyles.scss';
+	import '@fortawesome/fontawesome-free/css/all.min.css';
 	/* Adding var css styles to JSON format */
 
 	let { children } = $props();

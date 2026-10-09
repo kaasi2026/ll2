@@ -1,6 +1,5 @@
 <script lang="typescript">
 	import Stack from './Stack.svelte';
-	import Translate from './Translate.svelte';
 	import LicenseLogo from './LicenseLogo.svelte';
 
 	let { children } = $props();
@@ -13,8 +12,7 @@
 		{:else}
 			<div class="buttonset">
 				<a href="https://codeberg.org/LibreLingoRelive/LibreLingoRelive_Docs">
-					<Translate key="index.development_docs_english_only">Development docs (English)</Translate
-					>
+					Development documentation (English only)
 				</a>
 			</div>
 			<div>

@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { _ } from 'svelte-i18n';
 	import Button from 'components/Button.svelte';
-	import Translate from 'components/Translate.svelte';
 	import Stack from 'components/Stack.svelte';
 	import Hero from 'components/Hero/Hero.svelte';
 	import Page from 'components/Page.svelte';
@@ -15,8 +13,11 @@
 </script>
 
 <svelte:head>
-	<title>{$_('meta.title')}</title>
-	<meta name="description" content={$_('index.meta.description')} />
+	<title>LibreLingo - learn a language for free</title>
+	<meta
+		name="description"
+		content="LibreLingo is an experiment to create a community driven language-learning platform. Learn a language for free."
+	/>
 </svelte:head>
 
 <main class="main-content app-page">
@@ -29,9 +30,7 @@
 					</Stack>
 					<Stack direction="column" justify="center" shrink={2}>
 						<Heading level={1}>
-							<Translate key="index.subtitle">
-								A community-driven language-learning platform
-							</Translate>
+							an experiment to create a community-driven language-learning platform
 						</Heading>
 					</Stack>
 				</Stack>
@@ -43,9 +42,7 @@
 						{#each coursesFs as course (course.path)}
 							<Stack justify="center">
 								<Button style="primary" size="large" href={`/course/${course.path}`}>
-									<Translate key="index.start_{course.language}_course"
-										>Start learning {course.language}</Translate
-									>
+									Start learning {course.language}
 								</Button>
 							</Stack>
 						{/each}

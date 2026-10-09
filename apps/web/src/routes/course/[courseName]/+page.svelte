@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { locale } from 'svelte-i18n';
 	import SkillCard from 'components/SkillCard/SkillCard.svelte';
 	import NavBar from 'components/NavBar.svelte';
 
@@ -15,13 +14,6 @@
 	let modules = $derived(course?.modules ?? []);
 	let languageName = $derived(course?.languageName);
 	let repositoryURL = $derived(course?.repositoryURL);
-	let uiLanguage = $derived(data.uiLanguage ?? 'es');
-
-	$effect(() => {
-		if (uiLanguage) {
-			locale.set(uiLanguage);
-		}
-	});
 </script>
 
 <svelte:head>
