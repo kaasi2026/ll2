@@ -2,7 +2,7 @@
 	// TODO: Dead code, remove this
 	import { onMount } from 'svelte';
 	import isBrowser from '../utils/isBrowser';
-	import Icon from 'lluis/Icon.svelte';
+	import Icon from 'components/Icon.svelte';
 	import Button from 'components/Button.svelte';
 	// eslint-disable-next-line @typescript-eslint/no-var-requires
 	const pMemoize = require('p-memoize');
@@ -14,12 +14,12 @@
 
 	let stars: string | number =
 		(isBrowser() === true ? (window as unknown as WindowWithStars).stars : null) || '   ';
-	export let size: 'small' | 'normal' = 'small';
+	export let size: 'small' | 'medium' | 'large' = 'small';
 
 	onMount(async () => {
 		pMemoize(fetch, { maxAge: 5 * 60 * 1000 })('https://api.github.com/repos/LibreLingo/LibreLingo')
-			.then((res) => res.json())
-			.then(({ stargazers_count }) => {
+			.then((res: Response) => res.json() as Promise<{ stargazers_count: number }>)
+			.then(({ stargazers_count }: { stargazers_count: number }) => {
 				stars = stargazers_count;
 				if (isBrowser() === true) {
 					(window as unknown as WindowWithStars).star_count = stargazers_count;

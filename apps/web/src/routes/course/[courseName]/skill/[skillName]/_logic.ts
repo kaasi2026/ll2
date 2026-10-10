@@ -10,10 +10,19 @@ function shuffle<T>(array: T[]): T[] {
 	return result;
 }
 
-export const removeAlternatives = (challenges) =>
+type SkillChallenge = {
+	id: string;
+	group: string | number;
+	priority: number;
+};
+
+export const removeAlternatives = <T extends { id: string }>(challenges: T[]): T[] =>
 	Object.values(Object.fromEntries(challenges.map((challenge) => [challenge.id, challenge])));
 
-export const sortChallengeGroups = (challenges, expectedNumberOfChallenges) => {
+export const sortChallengeGroups = <T extends SkillChallenge>(
+	challenges: T[],
+	expectedNumberOfChallenges: number
+): T[] => {
 	// This is a very inefficient sorting algorithm to make sure that random order is preserved
 	// as much as possible while also priorities are respected within groups
 	// this is useful because some challenges should precede others
@@ -32,17 +41,15 @@ export const sortChallengeGroups = (challenges, expectedNumberOfChallenges) => {
 		index
 	}));
 
-	const isSmallestInGroup = (itemToCheck) =>
+	const isSmallestInGroup = (itemToCheck: T) =>
 		challengesWithPosition.filter(
 			({ item }) => item.group === itemToCheck.group && item.priority < itemToCheck.priority
 		).length === 0;
 
-	const sortedResults = [];
-	let bestItem;
-	let bestItemIndex;
+	const sortedResults: T[] = [];
 	while (challengesWithPosition.length > 0) {
-		bestItem = challengesWithPosition[0];
-		bestItemIndex = 0;
+		let bestItem = challengesWithPosition[0];
+		let bestItemIndex = 0;
 
 		// Make sure that we prioritize and element that is the first in its group
 		challengesWithPosition.forEach(({ index, item }, position) => {

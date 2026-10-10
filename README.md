@@ -59,19 +59,14 @@ git lfs pull
 
 then add a course or use the test-2 course and copy or clone it to courses.
 
-# back to your root directory and add audio for your course
-# if you have once generated the audio it's better to copy paste the folder instead of generating it all the time
-
-PYTHONPATH=src python3.10 src/librelingo_audios/cli.py courses/language-from-language apps/web/static/voice language-from-language
-
-# E.g. like this
- PYTHONPATH=src python3.10 src/librelingo_audios/cli.py courses/fr-from-en apps/web/static/voice fr-from-en
-
 # Docker build
 docker-compose build
 
 # Setup
-docker-compose up -d 
+docker-compose up -d
+
+# Generate audio inside the tools container
+docker-compose exec librelingo python3 src/librelingo_audios/cli.py /data/courses/fr-from-en /apps/web/static/voice fr-from-en
 
 The service should be available under http://localhost:5173
 ```

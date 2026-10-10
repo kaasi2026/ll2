@@ -27,11 +27,22 @@ function uniqBy<T>(array: T[], iteratee: keyof T | ((item: T) => unknown)): T[] 
 	return result;
 }
 
-export const prepareChallenge = ({
+type ChallengeOption = {
+	type: string;
+	formInTargetLanguage: string;
+	[key: string]: unknown;
+};
+
+export const prepareChallenge = <T extends ChallengeOption>({
 	currentChallenge,
 	alternativeChallenges,
 	typeToSelect,
 	hasFakeOption = false
+}: {
+	currentChallenge: T;
+	alternativeChallenges: T[];
+	typeToSelect: string;
+	hasFakeOption?: boolean;
 }) => {
 	const numberOfCards = hasFakeOption ? 4 : 3;
 	const correctOption = {

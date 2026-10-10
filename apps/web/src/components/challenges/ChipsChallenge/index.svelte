@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, tick } from 'svelte';
+	import { onMount, tick, untrack } from 'svelte';
 	import hotkeys from 'hotkeys-js';
 	import ChallengePanel from '../ChallengePanel.svelte';
 	import Phrase from '../Phrase.svelte';
@@ -24,7 +24,7 @@
 		text: string;
 	};
 
-	let initialChips: string[] = shuffle(challenge.chips);
+	let initialChips: string[] = untrack(() => shuffle(challenge.chips));
 
 	let submitted = $state(false);
 	let correct: boolean | null = $state(null);
@@ -154,14 +154,9 @@
 		<div class="solution">
 			<div id="answer" class="chips" bind:this={answerElement}>
 				{#each answerToRender as chip (chip.id)}
-					<span
-						class="chip"
-						data-id={chip.id}
-						onclick={handleChipClick}
-						onkeypress={handleChipClick}
-					>
+					<button type="button" class="chip" data-id={chip.id} onclick={handleChipClick}>
 						<span class="tag is-medium">{chip.text}</span>
-					</span>
+					</button>
 				{/each}
 			</div>
 		</div>
@@ -169,9 +164,9 @@
 		<p class="sub-instructions">Use these words:</p>
 		<div id="chips" class="chips" bind:this={chipsElement}>
 			{#each chipsToRender as chip (chip.id)}
-				<span class="chip" data-id={chip.id} onclick={handleChipClick} onkeypress={handleChipClick}>
+				<button type="button" class="chip" data-id={chip.id} onclick={handleChipClick}>
 					<span class="tag is-medium">{chip.text}</span>
-				</span>
+				</button>
 			{/each}
 		</div>
 	</div>
@@ -216,6 +211,10 @@
 		user-select: none;
 		margin: 0.5em 0.3em;
 		cursor: pointer;
+		border: 0;
+		padding: 0;
+		background: transparent;
+		font: inherit;
 	}
 
 	.solution {

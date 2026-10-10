@@ -15,23 +15,22 @@
 		title,
 		levels,
 		practiceHref,
-		introduction,
-		imageSet,
+		introduction = '',
+		imageSet = [],
 		summary
 	}: {
 		title: string;
 		levels: number;
 		practiceHref: string;
-		introduction: string;
-		imageSet: string[];
-		summary: string;
+		introduction?: string;
+		imageSet?: string[];
+		summary: string[];
 	} = $props();
 
 	let completed: boolean = $state(false);
 	let started: boolean = $state(false);
 	let stale: boolean = $state(false);
 	let progress: boolean = $state(false);
-	let challengeHref = $state(practiceHref);
 	let introductionPageHref = $derived(introduction ? `${practiceHref}/introduction` : null);
 
 	let backgroundColor = $derived(
@@ -89,7 +88,7 @@
 	{#snippet footer()}
 		<footer>
 			<div class="card-footer-item">
-				<Buttons practiceHref={introductionPageHref || challengeHref} {started} {completed} />
+				<Buttons practiceHref={introductionPageHref || practiceHref} {started} {completed} />
 			</div>
 		</footer>
 	{/snippet}

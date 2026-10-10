@@ -1,58 +1,34 @@
-import showdown from 'showdown';
+import MarkdownIt from 'markdown-it';
 
-export default function parseMarkdown(rawMarkdown: any) {
-	// Ensure rawMarkdown is a string
-	let markdownText: string = '';
+const markdown = new MarkdownIt({ html: true, linkify: true });
 
-	console.log('parseMarkdown input type:', typeof rawMarkdown);
-	console.log('parseMarkdown input:', rawMarkdown);
+type MarkdownInput = string | Record<string, unknown> | null | undefined;
+
+export default function parseMarkdown(rawMarkdown: MarkdownInput): string {
+	let markdownText = '';
 
 	if (typeof rawMarkdown === 'string') {
 		markdownText = rawMarkdown;
 	} else if (rawMarkdown && typeof rawMarkdown === 'object') {
-		// Handle imported markdown objects from vite-plugin-markdown
-		console.log('Markdown is object, keys:', Object.keys(rawMarkdown));
+		const knownFields = ['default', 'html', 'content', 'raw', 'text'];
+		let foundKnownField = false;
 
-		if ('default' in rawMarkdown && typeof rawMarkdown.default === 'string') {
-			console.log('Using rawMarkdown.default');
-			markdownText = rawMarkdown.default;
-		} else if ('html' in rawMarkdown && typeof rawMarkdown.html === 'string') {
-			console.log('Using rawMarkdown.html');
-			markdownText = rawMarkdown.html;
-		} else if ('content' in rawMarkdown && typeof rawMarkdown.content === 'string') {
-			console.log('Using rawMarkdown.content');
-			markdownText = rawMarkdown.content;
-		} else if ('raw' in rawMarkdown && typeof rawMarkdown.raw === 'string') {
-			console.log('Using rawMarkdown.raw');
-			markdownText = rawMarkdown.raw;
-		} else if ('text' in rawMarkdown && typeof rawMarkdown.text === 'string') {
-			console.log('Using rawMarkdown.text');
-			markdownText = rawMarkdown.text;
-		} else {
-			// If no known property found, try to find any string property
-			for (const [key, value] of Object.entries(rawMarkdown)) {
-				if (typeof value === 'string' && value.length > 0) {
-					console.log(`Using rawMarkdown.${key}`);
-					markdownText = value;
-					break;
-				}
-			}
-
-			if (!markdownText) {
-				console.warn('Could not extract markdown text from object');
+		for (const key of knownFields) {
+			const value = rawMarkdown[key];
+			if (typeof value === 'string') {
+				markdownText = value;
+				foundKnownField = true;
+				break;
 			}
 		}
-	} else {
-		console.warn('Invalid markdown input type:', typeof rawMarkdown);
+
+		if (!foundKnownField) {
+			markdownText =
+				Object.values(rawMarkdown).find(
+					(value): value is string => typeof value === 'string' && value.length > 0
+				) ?? '';
+		}
 	}
 
-	console.log('Final markdownText (first 100 chars):', markdownText.substring(0, 100));
-
-	if (!markdownText.trim()) {
-		console.warn('WARNING: Empty markdown text!');
-	}
-
-	const converter = new showdown.Converter();
-	const html = converter.makeHtml(markdownText);
-	return html;
+	return markdown.render(markdownText);
 }

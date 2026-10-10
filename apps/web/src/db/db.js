@@ -9,8 +9,7 @@ let remoteDB;
 let syncHandler;
 
 const createLocalPouchDb = (dbName) => {
-	const PouchDB =
-		process.env.JEST_WORKER_ID !== undefined ? require('pouchdb') : require('pouchdb').default;
+	const PouchDB = require('pouchdb').default;
 	const newDb = new PouchDB(dbName).setMaxListeners(settings.database.maxNumberOfListeners);
 
 	newDb
@@ -20,9 +19,6 @@ const createLocalPouchDb = (dbName) => {
 			include_docs: true
 		})
 		.on('change', () => {
-			if (process.env.JEST_WORKER_ID !== undefined) {
-				return;
-			}
 			const authStore = require('../auth').default;
 			authStore.update((value) => ({
 				...value,
@@ -159,19 +155,6 @@ if (isBrowser() === true) {
 			.on('error', function () {
 				authStore.update((value) => ({ ...value, online: false }));
 			});
-	};
-}
-
-if (process.env.JEST_WORKER_ID !== undefined) {
-	// This is a test database for Jest tests that can reset itself
-	db = createLocalPouchDb(settings.database.local);
-	db.__reset = async () => {
-		const allDocs = await db.allDocs();
-		await Promise.all(
-			allDocs.rows.map(function (row) {
-				return db.remove(row.id, row.value.rev);
-			})
-		);
 	};
 }
 

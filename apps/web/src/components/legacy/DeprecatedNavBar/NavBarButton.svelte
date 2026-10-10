@@ -1,5 +1,5 @@
 <script lang="ts">
-	import LinkOrButton from '../primitives/LinkOrButton.svelte';
+	import LinkOrButton from '../../primitives/LinkOrButton.svelte';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();

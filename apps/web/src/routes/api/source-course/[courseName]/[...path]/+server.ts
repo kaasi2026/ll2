@@ -2,6 +2,7 @@
 // SECURITY: This might even be a security problem
 
 import { error } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 import { fileURLToPath } from 'url';
 import { readFile } from 'fs/promises';
 import path from 'path';
@@ -29,7 +30,7 @@ const cleanPath = (rawPath: string) => {
 	return parts.join('/');
 };
 
-export const GET = async ({ params }) => {
+export const GET: RequestHandler = async ({ params }) => {
 	const { courseName, path: requestedPath } = params;
 	if (!courseName || !requestedPath) {
 		throw error(400, 'Missing courseName or path');

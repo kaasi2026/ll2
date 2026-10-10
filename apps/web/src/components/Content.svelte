@@ -1,10 +1,12 @@
 <!-- TODO: Is this necessary? -->
 <script lang="ts">
-	let { children } = $props();
+	import type { Snippet } from 'svelte';
+
+	let { children, class: className = '' }: { children?: Snippet; class?: string } = $props();
 </script>
 
-<div class="content">
-	{@render children()}
+<div class={`content ${className}`}>
+	{#if children}{@render children()}{/if}
 </div>
 
 <style type="text/scss">

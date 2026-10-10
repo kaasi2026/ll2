@@ -8,6 +8,7 @@
 <style type="text/scss">
 	.clamp {
 		display: -webkit-box;
+		line-clamp: 2;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 		overflow: hidden;

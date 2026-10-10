@@ -30,11 +30,22 @@ function uniqBy<T>(array: T[], iteratee: keyof T | ((item: T) => unknown)): T[] 
 }
 
 // TODO: Revise this
-export const prepareChallenge = ({
+type ChallengeOption = {
+	type: string;
+	formInTargetLanguage: string;
+	[key: string]: unknown;
+};
+
+export const prepareChallenge = <T extends ChallengeOption>({
 	currentChallenge,
 	alternativeChallenges,
 	typeToSelect,
-	hasFakeOption = null
+	hasFakeOption = false
+}: {
+	currentChallenge: T;
+	alternativeChallenges: T[];
+	typeToSelect: string;
+	hasFakeOption?: boolean;
 }) => {
 	const numberOfCards = hasFakeOption ? 4 : 3;
 	const correctOption = {
@@ -60,12 +71,12 @@ export const prepareChallenge = ({
 	const incorrectOptionsWithFake =
 		incorrectOptions.length >= 2
 			? [
-				{
-					...incorrectOptionsSample[0],
-					fake: true
-				},
-				...incorrectOptionsSample.slice(1)
-			]
+					{
+						...incorrectOptionsSample[0],
+						fake: true
+					},
+					...incorrectOptionsSample.slice(1)
+				]
 			: [];
 
 	return shuffle([correctOption, ...incorrectOptionsWithFake]);

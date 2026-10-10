@@ -9,6 +9,7 @@
 	import ProgressBar from '../ProgressBar.svelte';
 	import { fade, scale } from 'svelte/transition';
 	import { browser } from '$app/environment';
+	import { untrack } from 'svelte';
 
 	// TODO: remove this
 	function shuffle<T>(array: T[]): T[] {
@@ -66,14 +67,13 @@
 		| ShortInputChallengeData
 		| ChipsChallengeData;
 
-	let rawchallenges: ChallengeData[] = sortChallengeGroups(
-		shuffle(rawChallenges),
-		expectedNumberOfChallenges
+	let rawchallenges: ChallengeData[] = untrack(() =>
+		sortChallengeGroups(shuffle(rawChallenges), expectedNumberOfChallenges)
 	);
 	let challengeCount = rawchallenges.length;
 
 	let challenges: ChallengeData[] = $state([...rawchallenges]);
-	let currentChallenge = $state(challenges.shift());
+	let currentChallenge = $state(untrack(() => challenges.shift()));
 	let solvedChallenges: ChallengeData[] = $state([]);
 
 	let stats: { correct: number; incorrect: number; skipped: number } = $state({
@@ -87,7 +87,13 @@
 		new Image().src = `/images/${imageName}`;
 	};
 
-	challenges && challenges.map((c: any) => c.pictures && c.pictures.map(preloadImage));
+	untrack(() => {
+		challenges.forEach((challenge) => {
+			if ('pictures' in challenge) {
+				challenge.pictures.forEach(preloadImage);
+			}
+		});
+	});
 
 	let alternativeChallenges = $derived(
 		currentChallenge &&

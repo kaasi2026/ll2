@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import LinkOrButton from './primitives/LinkOrButton.svelte';
+	import LinkOrButton from '../primitives/LinkOrButton.svelte';
 	import Icon from 'components/Icon.svelte';
 	import Stack from 'components/Stack.svelte';
 

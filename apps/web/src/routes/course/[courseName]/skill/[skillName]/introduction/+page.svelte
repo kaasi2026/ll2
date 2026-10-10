@@ -4,9 +4,9 @@
 
 	let { data } = $props();
 
-	let readmeHTML = $derived(data.readmeHTML);
+	let readmeHTML = $derived(data.readmeHTML ?? '');
 	let title = $derived(data.title);
-	let practiceHref = $derived(data.practiceHref);
+	let practiceHref = $derived(data.practiceHref ?? '');
 	let courseName = $derived(data.courseName);
 
 	let homepageLink = $derived(`/course/${courseName}/`);

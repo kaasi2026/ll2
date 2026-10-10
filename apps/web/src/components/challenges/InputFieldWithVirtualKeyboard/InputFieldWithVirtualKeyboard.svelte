@@ -65,7 +65,6 @@
 	data-test="answer"
 	type="text"
 	class="input"
-	autofocus
 	placeholder="Type your answer…"
 	{disabled}
 	spellcheck="false"

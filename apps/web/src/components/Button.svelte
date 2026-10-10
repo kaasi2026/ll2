@@ -91,10 +91,6 @@
 		color: var(--text-color-inverted);
 	}
 
-	:global(.lluis-button[data-selector='hover']):hover {
-		/* placeholder hover state; actual hover colors should be defined by button style variables */
-	}
-
 	:global(.lluis-button[data-style='secondary']) {
 		background-color: var(--button-color-secondary);
 		border-color: var(--button-border-color-secondary);

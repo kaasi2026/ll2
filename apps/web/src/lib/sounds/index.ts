@@ -12,7 +12,7 @@ const sound = {
 	})
 };
 
-export const playAudio = (type, filename) => {
+export const playAudio = (type: string, filename: string) => {
 	new Howl({
 		src: [`/${type}/${filename}.mp3`]
 	}).play();
